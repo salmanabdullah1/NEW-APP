@@ -1,0 +1,166 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+class Siswa {
+    // Membuat Atribut
+    private int idsiswa;
+    private String nama;
+    private String alamat;
+    
+    // Konstruktor
+    Siswa(int idsiswa, String nama, String alamat){
+        this.idsiswa = idsiswa;
+        this.nama = nama;
+        this.alamat = alamat;
+    }
+    
+    public int getIdsiswa() {
+        return idsiswa;
+    }
+    
+      public String getNama() {
+        return nama;
+      }
+    
+      public String getAlamat() {
+        return alamat;
+      }
+    
+      public void setNama(String nama) {
+        this.nama = nama;
+      }
+    
+      public void setAlamat(String alamat) {
+        this.alamat = alamat;
+      }
+}
+
+class FiturSiswa extends Siswa{
+    
+    FiturSiswa(int idsiswa, String nama, String alamat){
+        super(idsiswa, nama, alamat);
+    }
+    
+    void display(){
+        System.out.println("ID Siswa: " + getIdsiswa());
+        System.out.println("Nama: " + getNama());
+        System.out.println("Alamat: " + getAlamat());
+    }
+}
+
+
+class MyClass {
+    public static void main(String args[]) {
+      Scanner input = new Scanner(System.in);
+     List < FiturSiswa > database = new ArrayList < > ();
+      //Membuat Objek Siswa
+      FiturSiswa fiturSiswa = new FiturSiswa(13, "Eko", "Jombang");
+      
+      boolean exit = false;
+      while (!exit) {
+          System.out.println("Aplikasi Pengolahan Data Siswa");
+          System.out.println("========");
+          System.out.println("1. Tambah Siswa");
+          System.out.println("2. Edit Siswa");
+          System.out.println("3. Hapus Siswa");
+          System.out.println("4. Tampilkan Semua Siswa");
+          System.out.println("5. Keluar");
+          System.out.println("Pilih Menu (1 - 5) :");
+          
+          int menu = input.nextInt();
+          switch (menu) {
+                case 1:
+                     System.out.print("Masukkan ID Siswa: ");
+                    int idsiswa = input.nextInt();
+                    input.nextLine();
+                    System.out.print("Masukkan Nama Siswa: ");
+                    String nama = input.nextLine();
+                    System.out.print("Masukkan Alamat Siswa: ");
+                    String alamat = input.nextLine();
+            
+                    FiturSiswa siswa = new FiturSiswa(idsiswa, nama, alamat);
+                    database.add(siswa);
+                    System.out.println("Siswa berhasil ditambahkan.");
+                    System.out.println("==============================");
+        
+                    break;
+    
+                case 2:
+                    System.out.print("Masukkan ID Siswa yang akan diedit: ");
+                    int editId = input.nextInt();
+                    input.nextLine();
+
+                    boolean found = false;
+                    for (FiturSiswa s: database) {
+                      if (s.getIdsiswa() == editId) {
+                        System.out.print("Masukkan Nama Siswa Baru: ");
+                        String newNama = input.nextLine();
+                        System.out.print("Masukkan Alamat Siswa Baru: ");
+                        String newAlamat = input.nextLine();
+            
+                        s.setNama(newNama);
+                        s.setAlamat(newAlamat);
+            
+                        found = true;
+                        System.out.println("Data siswa berhasil diubah.");
+                        System.out.println("==============================");
+                        break;
+                      }
+                    }
+                    
+                    if (!found) {
+                      System.out.println("Siswa tidak ditemukan.");
+                      System.out.println("==============================");
+                    }
+                     break;
+    
+                case 3:
+                    System.out.print("Masukkan ID Siswa yang akan dihapus: ");
+                    int deleteId = input.nextInt();
+                    input.nextLine();
+                    
+                    FiturSiswa deleteSiswa = null;
+                    for (FiturSiswa s: database) {
+                      if (s.getIdsiswa() == deleteId) {
+                        deleteSiswa = s;
+                        break;
+                      }
+                    }
+                    
+                    if (deleteSiswa != null) {
+                      database.remove(deleteSiswa);
+                      System.out.println("Data siswa berhasil dihapus.");
+                      System.out.println("==============================");
+                    } else {
+                      System.out.println("Siswa tidak ditemukan.");
+                      System.out.println("==============================");
+                    }
+                     break;
+                     
+                case 4:
+                     if (database.isEmpty()) {
+                      System.out.println("Database siswa kosong.");
+                    } else {
+                      System.out.println("Data Semua Siswa:");
+                      for (FiturSiswa s: database) {
+                        s.display();
+                        System.out.println("--------------------");
+                      }
+                    }
+                    System.out.println("==============================");
+                    System.out.println("Menampilkan data Siswa");
+                     break;
+                     
+                case 5:
+                    System.out.println("Terima kasih telah menggunakan aplikasi.");
+                    System.exit(0);
+                    break;
+                    
+                default:
+                    System.out.println("Menu yang Anda pilih tidak valid. Silakan pilih menu yang sesuai.");
+                    break;
+            }
+        }
+    }
+}
